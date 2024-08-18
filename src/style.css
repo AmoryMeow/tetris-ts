@@ -24,6 +24,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   --bg-color: #9aa680;
+  --color: #000;
 }
 
 body {
@@ -80,4 +81,27 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 0.1em;
   padding: 0.1em;
+}
+
+.buttons_menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+.button_menu {
+  font-family: "DigitFont";
+  border-radius: 1em;
+  outline: none;
+  box-shadow: 0 0.1em 0.3em 0 rgba(0, 0, 0, 0.75);
+  border: 0.1em solid #d3d3d3;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.2em 1em;
+  color: var(--color);
+}
+
+.button_menu:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
 }

@@ -9,7 +9,7 @@
     <div id="app">
       <header class="header">Tetris</header>
       <div class="wrapper">
-        <div class="field">
+        <div class="field" id="field">
           <div class="cell"></div>
           <div class="cell"></div>
           <div class="cell"></div>
@@ -250,7 +250,9 @@
           <div class="title">level</div>
           <div class="score">0</div>
           <div class="buttons_menu">
-            <button class="button button_menu">start/pause</button>
+            <button class="button button_menu" id="start_button">
+              start/pause
+            </button>
             <button class="button button_menu">reset</button>
           </div>
         </div>

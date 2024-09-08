@@ -29,17 +29,21 @@ export class Tetrimino {
     this.row++;
   }
 
-  rotate() {
-    const len = this.map.length;
+  rotate(): number[][] {
+    const rotated = Array.from({ length: this.size }, () =>
+      Array(this.size).fill(0)
+    );
 
-    const rotated = Array.from({ length: len }, () => Array(len).fill(0));
-
-    for (let i = 0; i < len; i++) {
-      for (let j = 0; j < len; j++) {
-        rotated[j][len - 1 - i] = this.map[i][j];
+    for (let i = 0; i < this.size; i++) {
+      for (let j = 0; j < this.size; j++) {
+        rotated[j][this.size - 1 - i] = this.map[i][j];
       }
     }
 
-    this.map = rotated;
+    return rotated;
+  }
+
+  updateMap(map: number[][]) {
+    this.map = map;
   }
 }

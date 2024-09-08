@@ -84,6 +84,31 @@ export class Game {
     return true;
   }
 
+  canRotate(newMap: number[][]) {
+    if (!this.tetrimino) return false;
+
+    for (let r = 0; r < this.tetrimino.size; r++) {
+      for (let c = 0; c < this.tetrimino.size; c++) {
+        if (newMap[r][c] !== 0) {
+          const boardRow = this.tetrimino.row + r;
+          const boardCol = this.tetrimino.col + c;
+
+          if (
+            boardRow >= ROWS ||
+            boardCol >= COLS ||
+            boardRow < 0 ||
+            boardCol < 0 ||
+            this.board.grid[boardRow][boardCol] !== 0
+          ) {
+            return false;
+          }
+        }
+      }
+    }
+
+    return true;
+  }
+
   leftClick() {
     if (this.tetrimino && this.canMove({ x: -1, y: 0 })) {
       this.tetrimino.moveLeft();
@@ -103,6 +128,11 @@ export class Game {
   }
 
   rotateClick() {
-    this.tetrimino?.rotate();
+    if (!this.tetrimino) return;
+
+    const newMap = this.tetrimino.rotate();
+    if (this.canRotate(newMap)) {
+      this.tetrimino.updateMap(newMap);
+    }
   }
 }

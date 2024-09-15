@@ -8,30 +8,88 @@ export class Game {
   private tetriminoGenerator: TetriminoGenerator;
   private board: Board;
   private draw: Draw;
-  gameOn: boolean;
-  tetrimino?: Tetrimino;
+  private tetrimino?: Tetrimino;
+  private status: "on" | "off" | "pause";
 
   private dropCounter: number;
   private lastTime: number;
 
   constructor() {
     this.board = new Board(ROWS, COLS);
-    this.gameOn = false;
     this.tetrimino = undefined;
     this.tetriminoGenerator = new TetriminoGenerator();
     this.draw = new Draw(ROWS, COLS);
+    this.status = "off";
 
     this.dropCounter = 0;
     this.lastTime = 0;
   }
 
   start() {
-    this.gameOn = !this.gameOn;
-    this.update();
+    switch (this.status) {
+      case "on":
+        this.status = "pause";
+        break;
+
+      case "off":
+        this.startAnimation().then(() => {
+          this.status = "on";
+          this.update();
+        });
+        break;
+
+      case "pause":
+        this.status = "on";
+        this.update();
+        break;
+    }
+  }
+
+  stop() {
+    this.status = "off";
+  }
+
+  startAnimation() {
+    return new Promise<void>((resolve) => {
+      let currentRow = ROWS - 1;
+      let direction = "up";
+
+      const animate = () => {
+        if (direction === "up") {
+          for (let col = 0; col < COLS; col++) {
+            this.board.grid[currentRow][col] = 1;
+          }
+          this.draw.update(this.board);
+
+          currentRow--;
+
+          if (currentRow < 0) {
+            direction = "down";
+            currentRow = 0;
+          }
+        } else {
+          for (let col = 0; col < COLS; col++) {
+            this.board.grid[currentRow][col] = 0;
+          }
+          this.draw.update(this.board);
+
+          currentRow++;
+          if (currentRow >= ROWS) {
+            setTimeout(() => resolve(), 1000);
+
+            return;
+          }
+        }
+
+        requestAnimationFrame(animate);
+      };
+
+      animate();
+    });
   }
 
   update(time = 0) {
-    if (this.gameOn) {
+    if (this.status === "on") {
       const deltaTime = time - this.lastTime;
       this.lastTime = time;
       this.dropCounter += deltaTime;

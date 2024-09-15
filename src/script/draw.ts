@@ -25,17 +25,19 @@ export class Draw {
       const col = index % this.cols;
 
       matrix[row][col] = item;
+      item.classList.remove(activeClassName);
     });
 
     return matrix;
   }
 
-  update(board: Board, tetrimino: Tetrimino) {
+  update(board: Board, tetrimino?: Tetrimino) {
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
         const isCellActive =
           board.grid[r][c] === 1 ||
-          (r >= tetrimino.row &&
+          (tetrimino !== undefined &&
+            r >= tetrimino.row &&
             r < tetrimino.row + tetrimino.size &&
             c >= tetrimino.col &&
             c < tetrimino.col + tetrimino.size &&

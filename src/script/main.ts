@@ -1,10 +1,17 @@
 import "../style.css";
 import { Game } from "./game";
 
-const game = new Game();
+let game = new Game();
 
 const startButton = document.getElementById("start_button");
 startButton?.addEventListener("click", () => {
+  game.start();
+});
+
+const resetButton = document.getElementById("reset_button");
+resetButton?.addEventListener("click", () => {
+  game.stop();
+  game = new Game();
   game.start();
 });
 

@@ -36,10 +36,12 @@ export class Board {
     for (let row = this.rows - 1; row >= 0; row--) {
       if (this.grid[row].every((cell) => cell === 1)) {
         this.grid.splice(row, 1);
-        this.grid.unshift(new Array(this.cols).fill(0));
-
         rowsCleared++;
       }
+    }
+
+    for (let row = 0; row < rowsCleared; row++) {
+      this.grid.unshift(new Array(this.cols).fill(0));
     }
 
     return rowsCleared;

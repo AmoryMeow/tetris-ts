@@ -108,6 +108,7 @@ export class Game {
         } else {
           this.board.addTetrimino(this.tetrimino);
           this.tetrimino = undefined;
+          this.board.clearFullRows();
         }
       }
 

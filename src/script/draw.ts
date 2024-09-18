@@ -47,4 +47,20 @@ export class Draw {
       }
     }
   }
+
+  updateScore(score: number) {
+    const scoreDisplay = document.getElementById("score");
+
+    if (scoreDisplay) {
+      scoreDisplay.textContent = score.toString();
+    }
+  }
+
+  updateHiScore(score: number) {
+    const scoreDisplay = document.getElementById("hi-score");
+
+    if (scoreDisplay) {
+      scoreDisplay.textContent = score.toString();
+    }
+  }
 }

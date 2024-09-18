@@ -14,6 +14,10 @@ export class Game {
   private dropCounter: number;
   private lastTime: number;
 
+  private score: number;
+  private hiScore: number;
+  private fullRows: number;
+
   constructor() {
     this.board = new Board(ROWS, COLS);
     this.tetrimino = undefined;
@@ -23,6 +27,12 @@ export class Game {
 
     this.dropCounter = 0;
     this.lastTime = 0;
+
+    this.score = 0;
+    this.hiScore = this.getHiScore();
+    this.fullRows = 0;
+
+    this.draw.updateHiScore(this.hiScore);
   }
 
   start() {
@@ -47,6 +57,7 @@ export class Game {
 
   stop() {
     this.status = "off";
+    this.saveHiScore();
   }
 
   startAnimation() {
@@ -108,12 +119,43 @@ export class Game {
         } else {
           this.board.addTetrimino(this.tetrimino);
           this.tetrimino = undefined;
-          this.board.clearFullRows();
+
+          const rows = this.board.clearFullRows();
+          this.updateScore(rows);
         }
       }
 
       requestAnimationFrame(this.update.bind(this));
     }
+  }
+
+  updateScore(rows?: number) {
+    if (rows) {
+      this.fullRows += rows;
+
+      if (rows === 1) {
+        this.score += 100;
+      } else if (rows === 2) {
+        this.score += 300;
+      } else if (rows === 3) {
+        this.score += 700;
+      } else if (rows === 4) {
+        this.score += 1500;
+      }
+    }
+
+    this.draw.updateScore(this.score);
+  }
+
+  getHiScore(): number {
+    const score = localStorage.getItem("hi-score") || "0";
+    return parseInt(score);
+  }
+
+  saveHiScore() {
+    this.hiScore = Math.max(this.hiScore, this.score);
+    localStorage.setItem("hi-score", this.hiScore.toString());
+    this.draw.updateHiScore(this.hiScore);
   }
 
   canMove(direction: { x: number; y: number }): boolean {

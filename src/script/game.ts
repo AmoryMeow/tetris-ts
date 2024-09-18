@@ -1,5 +1,5 @@
 import { Board } from "./board";
-import { COLS, ROWS, dropInterval } from "./const";
+import { COLS, ROWS, baseDropInterval } from "./const";
 import { Draw } from "./draw";
 import { TetriminoGenerator } from "./generator";
 import { Tetrimino } from "./tetrimino";
@@ -17,6 +17,8 @@ export class Game {
   private score: number;
   private hiScore: number;
   private fullRows: number;
+  private level: number;
+  private dropInterval: number;
 
   constructor() {
     this.board = new Board(ROWS, COLS);
@@ -31,6 +33,8 @@ export class Game {
     this.score = 0;
     this.hiScore = this.getHiScore();
     this.fullRows = 0;
+    this.level = 1;
+    this.dropInterval = baseDropInterval;
 
     this.draw.updateHiScore(this.hiScore);
   }
@@ -111,7 +115,7 @@ export class Game {
 
       this.draw.update(this.board, this.tetrimino);
 
-      if (this.dropCounter > dropInterval) {
+      if (this.dropCounter > this.dropInterval) {
         this.dropCounter = 0;
 
         if (this.canMove({ x: 0, y: 1 })) {
@@ -122,6 +126,9 @@ export class Game {
 
           const rows = this.board.clearFullRows();
           this.updateScore(rows);
+
+          this.updateLevel();
+          this.updateSpeed();
         }
       }
 
@@ -134,17 +141,30 @@ export class Game {
       this.fullRows += rows;
 
       if (rows === 1) {
-        this.score += 100;
+        this.score += 40 * this.level;
       } else if (rows === 2) {
-        this.score += 300;
+        this.score += 100 * this.level;
       } else if (rows === 3) {
-        this.score += 700;
+        this.score += 300 * this.level;
       } else if (rows === 4) {
-        this.score += 1500;
+        this.score += 1200 * this.level;
       }
     }
 
     this.draw.updateScore(this.score);
+  }
+
+  updateLevel() {
+    const needRows = this.level * 10;
+
+    if (this.fullRows >= needRows) {
+      this.level++;
+    }
+  }
+
+  updateSpeed() {
+    this.dropInterval =
+      Math.pow(0.8 - (this.level - 1) * 0.007, this.level - 1) * 1000;
   }
 
   getHiScore(): number {

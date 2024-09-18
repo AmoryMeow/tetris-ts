@@ -26,3 +26,23 @@ document.addEventListener("keydown", function (e) {
     game.rightClick();
   }
 });
+
+const rotateButton = document.getElementById("rotate_button");
+rotateButton?.addEventListener("click", () => {
+  game.rotateClick();
+});
+
+const leftButton = document.getElementById("left_button");
+leftButton?.addEventListener("click", () => {
+  game.leftClick();
+});
+
+const downButton = document.getElementById("down_button");
+downButton?.addEventListener("click", () => {
+  game.downClick();
+});
+
+const rightButton = document.getElementById("right_button");
+rightButton?.addEventListener("click", () => {
+  game.rightClick();
+});

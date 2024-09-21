@@ -231,13 +231,21 @@ export class Game {
   }
 
   leftClick() {
-    if (this.tetrimino && this.canMove({ x: -1, y: 0 })) {
+    if (
+      this.tetrimino &&
+      this.canMove({ x: -1, y: 0 }) &&
+      this.canMove({ x: 0, y: 1 })
+    ) {
       this.tetrimino.moveLeft();
     }
   }
 
   rightClick() {
-    if (this.tetrimino && this.canMove({ x: 1, y: 0 })) {
+    if (
+      this.tetrimino &&
+      this.canMove({ x: 1, y: 0 }) &&
+      this.canMove({ x: 0, y: 1 })
+    ) {
       this.tetrimino.moveRight();
     }
   }

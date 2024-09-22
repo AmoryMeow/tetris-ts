@@ -1,5 +1,5 @@
 import { Board } from "./board";
-import { activeClassName, field } from "./const";
+import { activeClassName, fadeOutClassName, field } from "./const";
 import { Tetrimino } from "./tetrimino";
 
 export class Draw {
@@ -62,5 +62,21 @@ export class Draw {
     if (scoreDisplay) {
       scoreDisplay.textContent = score.toString();
     }
+  }
+
+  fadeOut(fullRows: number[]) {
+    fullRows.forEach((row) => {
+      this.matrix[row].forEach((cell) => {
+        cell.classList.add(fadeOutClassName);
+      });
+    });
+  }
+
+  clearFadeOut(fullRows: number[]) {
+    fullRows.forEach((row) => {
+      this.matrix[row].forEach((cell) => {
+        cell.classList.remove(fadeOutClassName);
+      });
+    });
   }
 }

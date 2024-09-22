@@ -103,7 +103,7 @@ export class Game {
     });
   }
 
-  update(time = 0) {
+  async update(time = 0) {
     if (this.status === "on") {
       const deltaTime = time - this.lastTime;
       this.lastTime = time;
@@ -124,7 +124,7 @@ export class Game {
           this.board.addTetrimino(this.tetrimino);
           this.tetrimino = undefined;
 
-          const rows = this.board.clearFullRows();
+          const rows = await this.clearFullRows();
           this.updateScore(rows);
 
           this.updateLevel();
@@ -134,6 +134,35 @@ export class Game {
 
       requestAnimationFrame(this.update.bind(this));
     }
+  }
+
+  clearFullRows(): Promise<number> {
+    const fullRows: number[] = [];
+
+    for (let row = ROWS - 1; row >= 0; row--) {
+      if (this.board.grid[row].every((cell) => cell === 1)) {
+        fullRows.push(row);
+      }
+    }
+
+    if (fullRows.length === 0) {
+      return Promise.resolve(0);
+    }
+
+    this.draw.fadeOut(fullRows);
+
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        for (let row of fullRows) {
+          this.board.grid.splice(row, 1);
+        }
+        for (let r = 0; r < fullRows.length; r++) {
+          this.board.grid.unshift(new Array(COLS).fill(0));
+        }
+        this.draw.clearFadeOut(fullRows);
+        resolve(fullRows.length);
+      }, 500);
+    });
   }
 
   updateScore(rows?: number) {

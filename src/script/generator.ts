@@ -80,7 +80,13 @@ export class TetriminoGenerator {
   }
 
   private generateQueue() {
-    return tetriminos.map((item) => new Tetrimino(item));
+    const newQueue = tetriminos.map((item) => new Tetrimino(item));
+    for (let i = newQueue.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [tetriminos[i], tetriminos[j]] = [tetriminos[j], tetriminos[i]];
+    }
+
+    return newQueue;
   }
 
   getTetrimino(): Tetrimino {

@@ -113,6 +113,11 @@ export class Game {
         this.tetrimino = this.tetriminoGenerator.getTetrimino();
       }
 
+      if (this.isGameOver(this.tetrimino)) {
+        this.stop();
+        return;
+      }
+
       this.draw.update(this.board, this.tetrimino);
 
       if (this.dropCounter > this.dropInterval) {
@@ -163,6 +168,20 @@ export class Game {
         resolve(fullRows.length);
       }, 500);
     });
+  }
+
+  isGameOver(tetrimino: Tetrimino): boolean {
+    for (let r = 0; r < tetrimino.size; r++) {
+      for (let c = 0; c < tetrimino.size; c++) {
+        if (
+          tetrimino.map[r][c] === 1 &&
+          this.board.grid[tetrimino.row + r][tetrimino.col + c] === 1
+        ) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   updateScore(rows?: number) {

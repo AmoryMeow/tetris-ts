@@ -9,6 +9,7 @@ export class Game {
   private board: Board;
   private draw: Draw;
   private tetrimino?: Tetrimino;
+  private nextTetrimino?: Tetrimino;
   private status: "on" | "off" | "pause";
 
   private dropCounter: number;
@@ -109,8 +110,16 @@ export class Game {
       this.lastTime = time;
       this.dropCounter += deltaTime;
 
-      if (!this.tetrimino) {
+      if (!this.tetrimino && !this.nextTetrimino) {
         this.tetrimino = this.tetriminoGenerator.getTetrimino();
+        this.nextTetrimino = this.tetriminoGenerator.getTetrimino();
+      } else if (!this.tetrimino && this.nextTetrimino) {
+        this.tetrimino = this.nextTetrimino;
+        this.nextTetrimino = this.tetriminoGenerator.getTetrimino();
+      }
+
+      if (!this.tetrimino || !this.nextTetrimino) {
+        throw new Error("Failed to generate tetrimino or next tetrimino.");
       }
 
       if (this.isGameOver(this.tetrimino)) {
@@ -118,6 +127,7 @@ export class Game {
         return;
       }
 
+      this.draw.updateNext(this.nextTetrimino);
       this.draw.update(this.board, this.tetrimino);
 
       if (this.dropCounter > this.dropInterval) {

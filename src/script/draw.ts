@@ -1,5 +1,5 @@
 import { Board } from "./board";
-import { activeClassName, fadeOutClassName, field } from "./const";
+import { activeClassName, fadeOutClassName, field, next } from "./const";
 import { Tetrimino } from "./tetrimino";
 
 export class Draw {
@@ -13,7 +13,7 @@ export class Draw {
     this.matrix = this.createMatrix();
   }
 
-  private createMatrix() {
+  private createMatrix(): Element[][] {
     const cells = field?.children ?? [];
 
     const matrix = Array.from({ length: this.rows }, () =>
@@ -44,6 +44,29 @@ export class Draw {
             tetrimino.map[r - tetrimino.row][c - tetrimino.col] === 1);
 
         this.matrix[r][c].classList.toggle(activeClassName, isCellActive);
+      }
+    }
+  }
+
+  updateNext(tetrimino: Tetrimino) {
+    const cells = Array.from(next?.children ?? []);
+
+    cells.forEach((cell) => {
+      cell.classList.remove(activeClassName);
+    });
+
+    const rowOffset = Math.floor((2 - Math.min(2, tetrimino.size)) / 2);
+    const colOffset = Math.floor((4 - tetrimino.size) / 2);
+
+    for (let r = 0; r < tetrimino.size; r++) {
+      for (let c = 0; c < tetrimino.size; c++) {
+        if (tetrimino.map[r][c] === 1) {
+          const cellIndex = (rowOffset + r) * 4 + (colOffset + c);
+
+          if (cellIndex >= 0 && cellIndex < cells.length) {
+            cells[cellIndex].classList.add(activeClassName);
+          }
+        }
       }
     }
   }

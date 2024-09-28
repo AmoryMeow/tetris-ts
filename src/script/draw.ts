@@ -87,6 +87,22 @@ export class Draw {
     }
   }
 
+  updateLevel(level: number) {
+    const levelDisplay = document.getElementById("level");
+
+    if (levelDisplay) {
+      levelDisplay.textContent = level.toString();
+    }
+  }
+
+  updateSpeed(speed: number) {
+    const speedDisplay = document.getElementById("speed");
+
+    if (speedDisplay) {
+      speedDisplay.textContent = `${Math.round(speed)} ms`;
+    }
+  }
+
   fadeOut(fullRows: number[]) {
     fullRows.forEach((row) => {
       this.matrix[row].forEach((cell) => {

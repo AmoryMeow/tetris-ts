@@ -38,6 +38,8 @@ export class Game {
     this.dropInterval = baseDropInterval;
 
     this.draw.updateHiScore(this.hiScore);
+    this.draw.updateLevel(this.level);
+    this.draw.updateSpeed(this.dropInterval);
   }
 
   start() {
@@ -218,11 +220,13 @@ export class Game {
     if (this.fullRows >= needRows) {
       this.level++;
     }
+    this.draw.updateLevel(this.level);
   }
 
   updateSpeed() {
     this.dropInterval =
       Math.pow(0.8 - (this.level - 1) * 0.007, this.level - 1) * 1000;
+    this.draw.updateSpeed(this.dropInterval);
   }
 
   getHiScore(): number {

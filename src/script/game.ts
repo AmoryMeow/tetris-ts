@@ -50,6 +50,7 @@ export class Game {
 
       case "off":
         this.startAnimation().then(() => {
+          this.resetGame();
           this.status = "on";
           this.update();
         });
@@ -65,6 +66,22 @@ export class Game {
   stop() {
     this.status = "off";
     this.saveHiScore();
+  }
+
+  resetGame() {
+    this.dropCounter = 0;
+    this.lastTime = 0;
+
+    this.score = 0;
+    this.hiScore = this.getHiScore();
+    this.fullRows = 0;
+    this.level = 1;
+    this.dropInterval = baseDropInterval;
+
+    this.draw.updateScore(this.score);
+    this.draw.updateHiScore(this.hiScore);
+    this.draw.updateLevel(this.level);
+    this.draw.updateSpeed(this.dropInterval);
   }
 
   startAnimation() {

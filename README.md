@@ -59,7 +59,7 @@ yarn preview
 
 - TypeScript
 - HTML5 DOM
-- CSS3
+- CSS
 - Vite (Build tool)
 - Local Storage API for high score persistence
 
@@ -103,7 +103,3 @@ src/
 │   └── fonts/           # LCD-style fonts
 └── style.css            # Game styling
 ```
-
-## License
-
-MIT License

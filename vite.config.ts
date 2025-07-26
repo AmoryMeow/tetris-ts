@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/",
+  base: "/tetris-ts/",
   assetsInclude: ["**/*.ttf"],
   server: {
     open: true,

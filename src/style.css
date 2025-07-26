@@ -54,6 +54,7 @@ body {
   grid-template-columns: repeat(10, 1fr);
   gap: 0.1em;
   padding: 0.1em;
+  touch-action: none;
 }
 
 .cell {
@@ -98,6 +99,7 @@ body {
   border: 0.1em solid #d3d3d3;
   background-color: rgba(0, 0, 0, 0.1);
   color: var(--color);
+  touch-action: manipulation;
 }
 
 .button_menu {

@@ -1,7 +1,10 @@
 # Tetris TypeScript
 
-An implementation of the classic Tetris game built with TypeScript and HTML.
-![IMG_5826](https://github.com/user-attachments/assets/79d11688-5f60-4956-8ac4-08f2ed309ca4)
+An implementation of the classic Tetris game built with TypeScript and HTML. 
+
+
+<img src="https://github.com/user-attachments/assets/79d11688-5f60-4956-8ac4-08f2ed309ca4" width="350">
+
 
 ## Description
 
